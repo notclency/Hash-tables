@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-//import java.util.Arrays;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Hashtable;
 //import java.util.LinkedList;
 import java.util.Scanner;
@@ -28,14 +29,31 @@ class Main{
 
         read_file(array, table);
 
+        //Arrays.sort(array);
         //System.out.println(Arrays.toString(array));
         //System.out.println(table.get(1).Fname);
-        person i = search("Makena Wall", table);
+        
+
+        /*
+        person i = search("Makena Wall  ", table);
         if(i == null){
             //System.out.println(hashCode("Cunt", table));
             System.out.println("NOT FOUND");
         }else{
             System.out.println("Name: " + i.Fname + " " +i.Lname + "\nAge:  " + i.age);
+        } 
+        */
+        System.out.println("-------------------------------------------");
+        print(table);
+        System.out.println("-------------------------------------------");
+        insert(table, "Clency", "Tabe", 18);
+        //print(table);
+        int i = search("Clency Tabe", table);
+        delete(table, "Clency Tabe");
+        if(table.get(i) != null){
+            System.out.println("Name: " + table.get(i).Fname + " " + table.get(i).Lname + "\nAge:  " + table.get(i).age);
+        }else{
+            System.out.println("NOT FOUND");
         }
     }
 
@@ -105,7 +123,7 @@ class Main{
         return test;
     }
 
-    public static person search (String find, Hashtable<Integer, person> table) {
+    public static int search (String find, Hashtable<Integer, person> table) {
         
         String[] parts;
         int position;
@@ -118,11 +136,49 @@ class Main{
         //System.out.println(table.size());
         while(output != null){
            if(output.Fname.equals(parts[0]) && output.Lname.equals(parts[1]))
-                return output;
+                return position;
             position ++;
             position %= size;
             output = table.get(position);
         }
-        return null;
+        return position;
+    }
+    
+    public static void print(Hashtable<Integer, person> table) {
+        
+        for(int i = 0; i < size; i++){
+            while(table.get(i) == null){
+                i++;
+            }
+            System.out.println("Name: " + table.get(i).Fname + " " + table.get(i).Lname + "\nAge:  " + table.get(i).age);
+            
+        }
+
+        return;
+    }
+
+    public static void insert(Hashtable<Integer, person> table, String Fname, String Lname, int age) {
+        
+        person new_person = new person();
+        int position = hashCode(Fname+Lname, table);
+
+        new_person.Fname = Fname;
+        new_person.Lname = Lname;
+        new_person.age = age;
+        
+        while(table.get(position) != null){
+            position ++;
+            position %= size;
+        }
+
+        table.put(position, new_person);
+    }
+
+    public static void delete(Hashtable<Integer, person> table, String find) {
+        int i = search(find, table);
+        if(table.get(i) == null)
+            System.out.println("DOESNT EXIST");
+        else
+            table.remove(i);
     }
 }
