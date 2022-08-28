@@ -1,184 +1,173 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Hashtable;
-//import java.util.LinkedList;
 import java.util.Scanner;
 
-class Main{
-
-    //Struct
-    public static class person{
-        String Fname;
-        String Lname;
-        int age;
-    }
-    //static LinkedList<person> chain = new LinkedList<>();
-
+public class HashTable {
     
-    static int size = 40;
-    static int[] array = new int[size];
+    HashNode[] table;
+    int tableSize;
+    int size;
 
-    public static void main(String[] args) throws FileNotFoundException{
-
-        Hashtable<Integer, person> table = new Hashtable<>();
-
-        //System.out.println(array.length + " l");
-        //System.out.println(Arrays.toString(array));
-
-        read_file(array, table);
-
-        //Arrays.sort(array);
-        //System.out.println(Arrays.toString(array));
-        //System.out.println(table.get(1).Fname);
+    public void printKeys(){
         
-
-        /*
-        person i = search("Makena Wall  ", table);
-        if(i == null){
-            //System.out.println(hashCode("Cunt", table));
-            System.out.println("NOT FOUND");
-        }else{
-            System.out.println("Name: " + i.Fname + " " +i.Lname + "\nAge:  " + i.age);
-        } 
-        */
-        System.out.println("-------------------------------------------");
-        print(table);
-        System.out.println("-------------------------------------------");
-        insert(table, "Clency", "Tabe", 18);
-        //print(table);
-        int i = search("Clency Tabe", table);
-        delete(table, "Clency Tabe");
-        if(table.get(i) != null){
-            System.out.println("Name: " + table.get(i).Fname + " " + table.get(i).Lname + "\nAge:  " + table.get(i).age);
-        }else{
-            System.out.println("NOT FOUND");
-        }
-    }
-
-    public static void read_file(int[] array, Hashtable<Integer, person> table /*LinkedList<person>> table*/) throws FileNotFoundException {
-        //File file = new File("C:/Users/PC/Desktop/proj/myGit/Hash-tables/hash_table/dat.txt");
-        File file = new File("C:/Users/PC/Desktop/proj/myGit/Hash-tables/hash_table/data.txt");
-
-        Scanner input_file = new Scanner(file);
-        int[] n = {-1};
-        while(input_file.hasNextLine()){
-            
-            String Fname = input_file.next();
-            String Lname = input_file.next();
-            int age = input_file.nextInt();
-            fill_table(table, array, Fname, Lname, age, n);
-            n[0]++;
-            
-        }
-        input_file.close();
-        
-    }
-
-    public static void fill_table(Hashtable<Integer, person> table/*LinkedList<person>> table*/, int[] array, String Fname, String Lname, int age, int[] n) {
-        person person = new person();
-        //LinkedList<person> chain = new LinkedList<person>();
-        
-        person.Fname = Fname;
-        person.Lname = Lname;
-        person.age = age;
-        int position = hashCode(Fname+Lname, table);
-        //System.out.println(position);
-
-        while(exist(position, array) || position > array.length){
-            if(position > array.length){
-                position = 0;
+        for(int i = 0; i < tableSize; i++){
+            HashNode head = table[i];
+            if(head != null){
+                System.out.println("");
+                System.out.print("Index " + i + ":");
             }
-            position ++;
-        }
-        table.put(position, person);
-        //hain.addLast(person);
-        array[n[0] + 1] = position;
-        
-    }
-
-    public static int hashCode(String Fullname, Hashtable<Integer, /*LinkedList<person>>*/ person> table){
-        
-        int ascii = 0;
-        for(int i = 0; i < Fullname.length(); i++){
-            ascii += Fullname.charAt(i);
-        }
-
-        //System.out.println(ascii % size);
-
-        return ascii % size;
-    }
-
-    public static boolean exist(int value, int[] array) {
-
-        boolean test = false;
-        for (int element : array) {
-            if (element == value) {
-                test = true;
-                break;
+            while(head != null){
+                System.out.print(" -- " + head.person.name + "'s key: " + head.key);
+                head = head.next;
             }
         }
-        
-        return test;
     }
 
-    public static int search (String find, Hashtable<Integer, person> table) {
-        
-        String[] parts;
-        int position;
-        person output;
-        
-        parts = find.split(" ");
-        position = hashCode(parts[0]+parts[1], table);
-        output = table.get(position);
-            
-        //System.out.println(table.size());
-        while(output != null){
-           if(output.Fname.equals(parts[0]) && output.Lname.equals(parts[1]))
-                return position;
-            position ++;
-            position %= size;
-            output = table.get(position);
-        }
-        return position;
+    public HashTable(){
+        this(20);
+    }
+
+    public HashTable(int capacity){
+        this.tableSize = capacity;
+        this.table = new HashNode[tableSize];
+        this.size = 0;
     }
     
-    public static void print(Hashtable<Integer, person> table) {
+    public void read_file() throws FileNotFoundException{
+        File file = new File("C:\\Users\\PC\\Desktop\\proj\\myGit\\Hash-tables\\hash_table\\team.txt");
+        Scanner readFile = new Scanner(file);
+        load(readFile);
         
-        for(int i = 0; i < size; i++){
-            while(table.get(i) == null){
-                i++;
-            }
-            System.out.println("Name: " + table.get(i).Fname + " " + table.get(i).Lname + "\nAge:  " + table.get(i).age);
-            
+        return;
+    }
+
+    public void load(Scanner file) {
+        
+        char team;
+        char position;
+        int goals;
+        int assists;
+        int goals_ga;
+        String name;
+
+        int key;
+
+        while(file.hasNextLine()){
+            team = file.next().charAt(0);
+            position = file.next().charAt(0);
+            goals = file.nextInt();
+            assists = file.nextInt();
+            goals_ga = file.nextInt();
+            name = file.nextLine();
+
+            person person = new person(name, team, position, goals, assists, goals_ga);
+            key = getKey(person);
+            put(key, person);           
         }
 
         return;
     }
 
-    public static void insert(Hashtable<Integer, person> table, String Fname, String Lname, int age) {
-        
-        person new_person = new person();
-        int position = hashCode(Fname+Lname, table);
+    public int getKey(person person){
 
-        new_person.Fname = Fname;
-        new_person.Lname = Lname;
-        new_person.age = age;
-        
-        while(table.get(position) != null){
-            position ++;
-            position %= size;
+        int key = 0;
+
+        for(int i = 0; i < person.name.length(); i++){
+            key += person.name.charAt(i);
         }
 
-        table.put(position, new_person);
+        return key;
     }
 
-    public static void delete(Hashtable<Integer, person> table, String find) {
-        int i = search(find, table);
-        if(table.get(i) == null)
-            System.out.println("DOESNT EXIST");
-        else
-            table.remove(i);
+    public int hashIndex(Integer key) { return key % tableSize; }
+
+    public boolean isEmpty(Integer key) { return size == 0; }
+
+    public void printTable() {
+        
+        for(int i = 0; i < tableSize; i++){
+            HashNode head = table[i];
+            while(head != null){
+                System.out.println(head);
+                head = head.next;
+            }
+        }
+        System.out.println("");
+    
+        return;
+    }
+
+    public void put(Integer key, person person){
+        
+        if(key == null || person == null){
+            System.out.println("Key or Node is null");
+        }else{
+            int index = hashIndex(key);
+            HashNode head = table[index];
+            while(head != null){                   // checks if key already exist
+                if(head.key.equals(key)){
+                    head.person = person;
+                    return;
+                }
+                head = head.next;
+            }
+            size ++;
+            head = table[index];
+            HashNode newNode = new HashNode(key, person);
+            newNode.person = person;
+            newNode.next = head;
+            table[index] = newNode;
+        }
+    
+        return;
+    }
+    
+    public static void main(String[] args) throws FileNotFoundException {
+
+        HashTable myTable = new HashTable(13);
+        myTable.read_file();
+        System.out.print("\n");
+        myTable.printTable();
+        System.out.println("--------");
+        myTable.printKeys();
+
+        return;
+    }
+
+    class HashNode{
+
+        Integer key;
+        person person;
+        HashNode next;
+
+        HashNode(int key, person person){
+            this.key = key;
+            this.person = null;
+            this.next = null;
+        }
+
+        public String toString(){
+            return this.person.name + " " + this.person.team + " " + this.person.position + " " + 
+            this.person.goals + " " + this.person.assist + " " + 
+            this.person.goals_ga;
+        }
+    }
+
+    class person{
+        String name;
+        char team;
+        char position;
+        int goals;
+        int assist;
+        int goals_ga;
+
+        person(String name, char team, char position, int goals, int assist, int goals_ga){
+            this.name = name;
+            this.team = team;
+            this.position = position;
+            this.goals = goals;
+            this.assist = assist;
+            this.goals_ga = goals_ga;
+        }
     }
 }
