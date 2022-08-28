@@ -1,0 +1,13 @@
+C f 9 6 0 Sarah Nurse
+C f 7 2 0 Marie-Philip Poulin
+C d 0 3 0 Jocelyne Larocque
+C g 0 1 3 Emerance Maschmeyer
+F f 1 4 0 Noora Tulus
+F f 7 5 0 Susanna Tapani
+F g 0 0 5 Anni Keisala
+U f 3 3 0 Amanda Kessel
+U g 0 0 5 Nicole Hensley
+U d 0 1 0 Megan Keller
+I d 0 2 0 Jenni Hiirikoski
+I f 2 4 0 Brianna Decker
+I g 0 0 4 Kristen Campbell
