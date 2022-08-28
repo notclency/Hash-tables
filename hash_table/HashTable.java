@@ -125,7 +125,7 @@ public class HashTable {
     
     public static void main(String[] args) throws FileNotFoundException {
 
-        HashTable myTable = new HashTable(13);
+        HashTable myTable = new HashTable(25);
         myTable.read_file();
         System.out.print("\n");
         myTable.printTable();
