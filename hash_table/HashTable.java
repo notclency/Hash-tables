@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class HashTable {
     
-    HashNode[] table;
-    int tableSize;
-    int size;
+    private HashNode[] table;
+    private int tableSize;
+    private int size;
 
     public void printKeys(){
         
@@ -25,7 +25,7 @@ public class HashTable {
     }
 
     public HashTable(){
-        this(20);
+        this(20);        // default capacity
     }
 
     public HashTable(int capacity){
@@ -122,14 +122,61 @@ public class HashTable {
     
         return;
     }
+
+    public HashNode get(Integer key){
+        
+        int index = hashIndex(key);
+        HashNode head = table[index];
+
+        while(head != null){
+            if(head.key.equals(key)){
+                return head;
+            }
+            head = head.next;
+        }
+
+        return null;
+    }
+
+    public String remove(Integer key){
+        
+        HashNode prev = null;
+        HashNode head = table[hashIndex(key)];
+
+        while(head != null){
+            if(head.key.equals(key)){
+                if(prev == null){
+                    if(head.next == null){
+                        table[hashIndex(key)] = null;
+                    }else{
+                        table[hashIndex(key)] = head.next;
+                    }
+                }else{
+                    prev.next = head.next;
+                }
+                size --;
+                return "\nKey: " + key + " has been removed.";
+            }
+            prev = head;
+            head = head.next;
+
+            
+        }
+
+        return "\nKey: " + key + " not found.";
+    }
     
     public static void main(String[] args) throws FileNotFoundException {
 
         HashTable myTable = new HashTable(25);
         myTable.read_file();
         System.out.print("\n");
-        myTable.printTable();
+        //myTable.printTable();
+        //System.out.println("--------");
+        myTable.printKeys();
         System.out.println("--------");
+        System.out.println(myTable.remove(1600));
+        System.out.println(myTable.size);
         myTable.printKeys();
 
         return;
