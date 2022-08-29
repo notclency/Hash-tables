@@ -2,7 +2,7 @@
 
 Learning and playing around with hash-tables
 
-!!!  This is not a redo of Assignmen 3 part 2 or Part 1 - this is similiar to Assignment becuase of the data used  !!!
+!!!  This is not a redo of Assignmen 3 part 2 or Part 1 - this is similiar to the Assignment becuase of the data used  !!!
 
 - Writing a program that collects data from a file and stores them in a hash-table.
   This programs reads data from a file in the format "C f 9 6 0 Sarah Nurse"
