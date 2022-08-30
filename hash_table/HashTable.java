@@ -8,9 +8,9 @@ import java.util.Scanner;
 
 public class HashTable {
     
-    private HashNode[] table;
-    private int tableSize;
-    private int size;
+    private HashNode[] table;       // The HashTable
+    private int tableSize;          // Size of the HashTable
+    private int size;               // Number of items in the HashTables
 
 
     /*
