@@ -10,7 +10,7 @@ Learning and playing around with hash-tables
   containing variables for the data to be stored then stores this class in HashNode. This HashNode contains a key, a player Node
   and a next HashNode (chaining).
 
-- Collision are resolved by chaining.
+- Collision is resolved by chaining.
 
 - Feel free to test run & test the code.
 - Certain test have been implemented in the main class.
